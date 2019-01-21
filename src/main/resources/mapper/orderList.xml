@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfut.shopping.mapper.OrderListMapper">
+
+<resultMap type="com.hfut.shopping.domain.Order"
+		id="order">
+		<id property="id" column="order_id" />
+		<result property="price" column="order_price" />
+		<collection property="instances" ofType="com.hfut.shopping.domain.OrderInstance">
+			<id property="id" column="instance_id" />
+			<result property="commodityName" column="instance_commodity_name" />
+			<result property="shopName" column="instance_commodity_shop_name" />
+			<result property="type" column="instance_commodity_type" />
+			<result property="price" column="instance_commodity_price" />
+		</collection>
+	</resultMap>
+	
+	<select id="select" resultMap="order">
+		select order_id,order_price,instance_id,instance_commodity_name,
+		instance_commodity_shop_name,instance_commodity_type,
+		instance_commodity_price,instance_order_id
+		from `order`  join order_instance on order_id=instance_order_id
+		<where>
+			order_consumer_id = #{consumerId}
+		</where>
+	</select>
+	
+	
+</mapper>
